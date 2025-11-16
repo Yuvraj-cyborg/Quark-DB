@@ -1,5 +1,5 @@
 use Quark_db::db::CacheDB;
-use clap::{Parser,Subcommand};
+use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
 #[command(name = "Quark-DB", version = "0.1.0", author = "Yuvraj Biswal")]
@@ -12,20 +12,14 @@ struct Cli {
     command: Commands,
 }
 
-
 #[derive(Subcommand, Debug)]
 enum Commands {
-    Put {
-      key: String,
-      value: String,
-    },
-    Get {
-      key: String,
-    },
-    Delete {
-      key: String,
-    },
+    Put { key: String, value: String },
+    Get { key: String },
+    Delete { key: String },
     Size,
+    Save { path: String },
+    Load { path: String },
 }
 
 fn main() {
@@ -54,11 +48,19 @@ fn main() {
         Commands::Size => {
             println!("DB size: {}", db.size());
         }
+        Commands::Save { path } => {
+            if let Err(e) = db.save(&path) {
+                eprintln!("Error saving DB: {e}");
+            } else {
+                println!("Saved DB to {path}");
+            }
+        }
+        Commands::Load { path } => match CacheDB::load_from_file(&path) {
+            Ok(loaded_db) => {
+                println!("Loaded DB from {}", path);
+                println!("Size: {}", loaded_db.size());
+            }
+            Err(e) => eprintln!("Error loading DB: {e}"),
+        },
     }
-
 }
-
-
-
-
-

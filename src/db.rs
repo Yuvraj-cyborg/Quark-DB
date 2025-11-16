@@ -1,4 +1,6 @@
 use std::collections::HashMap;
+use std::fs;
+use std::io;
 
 pub struct CacheDB {
     store: HashMap<String, String>,
@@ -13,7 +15,7 @@ impl CacheDB {
 
     // inserting data into the cache
     pub fn put(&mut self, key: String, value: String) {
-        self.store.insert(key,value);
+        self.store.insert(key, value);
     }
 
     // fetching data from the cache using its key
@@ -31,6 +33,16 @@ impl CacheDB {
         self.store.len()
     }
 
+    //Save the cache to a file
+    pub fn save(&self, path: &str) -> io::Result<()> {
+        let json = serde_json::to_string(&self.store)?;
+        std::fs::write(path, json)?;
+        Ok(())
+    }
+
+    pub fn load_from_file(path: &str) -> io::Result<Self> {
+        let data = fs::read_to_string(path)?;
+        let store: HashMap<String, String> = serde_json::from_str(&data)?;
+        Ok(Self { store })
+    }
 }
-
-
