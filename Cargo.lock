@@ -3,7 +3,7 @@
 version = 4
 
 [[package]]
-name = "Quark-db"
+name = "Quark"
 version = "0.1.0"
 dependencies = [
  "clap",

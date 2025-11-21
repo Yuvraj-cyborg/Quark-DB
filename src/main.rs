@@ -1,4 +1,4 @@
-use Quark_db::db::CacheDB;
+use Quark::db::CacheDB;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
