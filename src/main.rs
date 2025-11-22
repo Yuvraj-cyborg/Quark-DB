@@ -2,7 +2,7 @@ use Quark::db::CacheDB;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
-#[command(name = "Quark-DB", version = "0.1.0", author = "Yuvraj Biswal")]
+#[command(name = "Quark-DB", version = "0.1.2", author = "Yuvraj Biswal")]
 #[command(
     about = "A mini cache DB",
     long_about = "A cache DB (just a hashmap as a db) in Rust"
